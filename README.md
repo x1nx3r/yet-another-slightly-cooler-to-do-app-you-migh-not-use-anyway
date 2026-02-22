@@ -118,33 +118,43 @@ Before you run this, you'll need a few things:
 - **DBus/MPRIS**: To talk to your media players.
 - **webkit2gtk**: The literal web browser that renders the UI while Tauri tries to convince you it's a "native" app. (Hey at least it's not another chromium instance on top of 5 other you already have running)
 
-## Getting Started
+## Getting Started (The Quest for Productivity)
 
-### Prerequisites
-- Install **Bun** (for the frontend).
-- Install **Rust/Cargo** (for the backend).
-- Use **Hyprland**.
+### Prerequisites (Things you should have done already)
+- [ ] Install **Bun** (the only runtime with a funny enough logo).
+- [ ] Install **Rust/Cargo** (for that "systems engineer" feeling).
+- [ ] Install **Hyprland** (or else you're just looking at a broken web page).
 
-### Dev Setup
+### Preparation (The "I'm totally going to do this" phase)
 ```bash
+# 1. Fork this monument to my ego (duh)
 git clone https://github.com/x1nx3r/yet-another-slighty-cooler-to-do-list-app.git
+
+# 2. Walk into the directory of regret
 cd yet-another-slighty-cooler-to-do-list-app
+
+# 3. Install dependencies and hope nothing breaks
 bun install
+
+# 4. Fire up the dev server to see if it even works
 bun tauri dev
 ```
 
 **Note on Bundling**: I'm **"on Arch btw"** so I don't need `.deb` or `.rpm` packages. Bundling is disabled in `tauri.conf.json` because I prefer raw binaries. If you're on a distro that requires formal packaging, you'll have to enable those flags yourself or just use my `install.sh`.
 
-### Installation
+### Commitment (The "Point of No Return")
 ```bash
+# 5. Make the installer executable
 chmod +x install.sh
+
+# 6. Actually install it and admit you have a problem
 ./install.sh
 ```
 
-### Uninstallation
+### Regret (The "Get it off my screen" phase)
 ```bash
-chmod +x uninstall.sh
-./uninstall.sh
+# Optional: Wipe your mistakes from existence
+chmod +x uninstall.sh && ./uninstall.sh
 ```
 
 ## Acknowledgments
