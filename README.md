@@ -2,6 +2,9 @@
 
 A task widget for people who spend more time rice-ing their Linux desktop than actually being productive.
 
+![Much wow](./repo-assets/screenshoot.png)
+[this is how it looks like in case if you are a windows pleb](./repo-assets/video.mp4)
+
 ## Why I made this?
 
 I was watching **peppy** (the osu! creator) stream and saw his Übersichts widget setup on macOS. It looked clean. Then I remembered I use Linux, Übersichts doesn't exist here, and I have a pathological need to replicate things I see on other platforms just to prove I can. So I vibe-coded this.
