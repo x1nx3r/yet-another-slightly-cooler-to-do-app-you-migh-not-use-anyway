@@ -1,0 +1,460 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;800&family=Roboto:wght@400;500;700&display=swap');
+
+:root {
+    --font-main: 'SF Pro Display', 'Roboto', 'Inter', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    --glass-bg: rgba(20, 20, 20, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-highlight: rgba(255, 255, 255, 0.05);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    --blur-amount: 12px;
+
+    --accent-color: #c084fc;
+    --accent-glow: rgba(192, 132, 252, 0.4);
+
+    --text-primary: rgba(255, 255, 255, 0.95);
+    --text-secondary: rgba(255, 255, 255, 0.6);
+
+    color-scheme: dark;
+}
+
+/* === CRITICAL: Full height chain so widget fills the window === */
+html,
+body,
+#root {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: transparent;
+}
+
+body {
+    font-family: var(--font-main);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* --- Base Widget Container --- */
+.widget-container {
+    width: 100%;
+    height: 100%;
+    padding: 1rem;
+    box-sizing: border-box;
+    background: transparent;
+    backdrop-filter: none;
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.widget-container::before {
+    display: none;
+}
+
+h1 {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-secondary);
+    text-align: center;
+    font-weight: 800;
+    pointer-events: none;
+}
+
+/* --- Keystroke Bar (inline with dock) --- */
+.keystroke-bar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.4rem;
+    width: 100%;
+    height: 100%;
+    padding: 0 0.5rem 4px 0.5rem;
+    box-sizing: border-box;
+    font-family: var(--font-main);
+}
+
+.keystroke-key {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.85);
+    padding: 0;
+    border-radius: 0;
+    background: none;
+    border: none;
+    animation: key-pop 0.15s ease-out;
+    transition: opacity 0.2s ease-out;
+}
+
+.keystroke-keys-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.4rem;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.keystroke-idle {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.global-close-btn {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: 0 4px;
+    margin-left: 0.5rem;
+    transition: color 0.2s, transform 0.2s;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.global-close-btn:hover {
+    color: #ff5555;
+    transform: scale(1.1);
+}
+
+@keyframes key-pop {
+    0% {
+        transform: scale(0.85);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* --- Task Manager --- */
+.widget-container.tasks {
+    justify-content: flex-start;
+    padding: 0.8rem;
+}
+
+.settings-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.settings-header h1 {
+    margin: 0;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.close-btn:hover {
+    color: #ff5555;
+    background: rgba(255, 85, 85, 0.1);
+}
+
+.widget-container.tasks form {
+    margin-bottom: 0.8rem;
+    position: relative;
+}
+
+.widget-container.tasks input[type="text"] {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid transparent;
+    border-radius: 6px;
+    padding: 8px 10px;
+    color: white;
+    font-family: var(--font-main);
+    font-size: 1rem;
+    transition: all 0.2s;
+    box-sizing: border-box;
+}
+
+.widget-container.tasks input[type="text"]:focus {
+    background: rgba(0, 0, 0, 0.4);
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px var(--accent-glow);
+    outline: none;
+}
+
+.widget-container.tasks ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+.widget-container.tasks ul::-webkit-scrollbar {
+    width: 4px;
+}
+
+.widget-container.tasks ul::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+.widget-container.tasks li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
+    border-radius: 6px;
+    margin-bottom: 4px;
+    background: transparent;
+    transition: background 0.2s;
+    cursor: pointer;
+}
+
+.widget-container.tasks li:hover {
+    background: var(--glass-highlight);
+}
+
+/* Custom Checkbox */
+.widget-container.tasks input[type="checkbox"] {
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+
+.widget-container.tasks input[type="checkbox"]:checked {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    box-shadow: 0 0 8px var(--accent-glow);
+}
+
+.widget-container.tasks input[type="checkbox"]:checked::after {
+    content: '✓';
+    position: absolute;
+    color: black;
+    font-size: 9px;
+    font-weight: bold;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.widget-container.tasks li span {
+    flex-grow: 1;
+    font-size: 1rem;
+    transition: color 0.2s;
+    line-height: 1.2;
+}
+
+.widget-container.tasks li.completed span {
+    color: var(--text-secondary);
+    text-decoration: line-through;
+    opacity: 0.5;
+}
+
+.widget-container.tasks li button {
+    opacity: 0;
+    background: none;
+    border: none;
+    color: #ff5555;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: opacity 0.2s;
+    padding: 0 4px;
+}
+
+.widget-container.tasks li:hover button {
+    opacity: 1;
+}
+
+
+/* --- Music Bar (inline) --- */
+.music-bar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.5rem;
+    width: 100%;
+    height: 100%;
+    padding: 0 0.5rem 4px 0.5rem;
+    box-sizing: border-box;
+    font-family: var(--font-main);
+}
+
+.music-info {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.music-visualizer {
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 12px;
+    width: 14px;
+    flex-shrink: 0;
+}
+
+.vis-bar {
+    width: 2px;
+    height: 100%;
+    background: var(--accent-color);
+    border-radius: 1px;
+    opacity: 0.6;
+}
+
+.music-visualizer.playing .vis-bar {
+    animation: vis-pulse 0.8s ease-in-out infinite;
+}
+
+.vis-bar:nth-child(1) {
+    animation-delay: 0.0s;
+    height: 40%;
+}
+
+.vis-bar:nth-child(2) {
+    animation-delay: 0.2s;
+    height: 80%;
+}
+
+.vis-bar:nth-child(3) {
+    animation-delay: 0.4s;
+    height: 60%;
+}
+
+.vis-bar:nth-child(4) {
+    animation-delay: 0.6s;
+    height: 100%;
+}
+
+@keyframes vis-pulse {
+
+    0%,
+    100% {
+        transform: scaleY(0.4);
+    }
+
+    50% {
+        transform: scaleY(1);
+    }
+}
+
+.music-title {
+    font-size: 1rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.music-sep {
+    color: rgba(255, 255, 255, 0.4);
+    font-weight: 400;
+}
+
+.music-artist {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.music-idle {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+/* --- Dock Bar (minimalist one-liner) --- */
+.dock-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    width: 100%;
+    height: 100%;
+    padding: 0 0.5rem 4px 0.5rem;
+}
+
+.dock-text {
+    font-size: 1rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dock-sep {
+    color: rgba(255, 255, 255, 0.25);
+    font-size: 1.1rem;
+}
+
+.dock-time {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.dock-gear {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 0;
+    transition: color 0.2s;
+}
+
+.dock-gear:hover {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* --- Active Task Indicator in Settings Panel --- */
+.widget-container.tasks li.active {
+    background: rgba(192, 132, 252, 0.08);
+    border-left: 2px solid var(--accent-color);
+    box-shadow: inset 0 0 8px rgba(192, 132, 252, 0.05);
+}
+
+.widget-container.tasks li .activate-btn {
+    opacity: 0;
+    background: none;
+    border: none;
+    color: var(--accent-color);
+    cursor: pointer;
+    font-size: 0.75rem;
+    transition: opacity 0.2s;
+    padding: 0 4px;
+}
+
+.widget-container.tasks li:hover .activate-btn {
+    opacity: 0.7;
+}
+
+.widget-container.tasks li.active .activate-btn {
+    opacity: 1;
+}

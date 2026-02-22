@@ -1,0 +1,14 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "Capability for the main window",
+  "windows": [
+    "tasks",
+    "keystrokes",
+    "music"
+  ],
+  "permissions": [
+    "core:default",
+    "opener:default"
+  ]
+}
