@@ -4,7 +4,7 @@ A task widget for people who spend more time rice-ing their Linux desktop than a
 
 ![Much wow](./repo-assets/screenshoot.png)
 
-![this is how it looks like in case if you are a windows pleb](./repo-assets/video.mp4)
+![this is how it looks like in action](./repo-assets/video.mp4)
 
 ## Why I made this?
 
