@@ -4,9 +4,7 @@ A task widget for people who spend more time rice-ing their Linux desktop than a
 
 ![Much wow](./repo-assets/screenshoot.png)
 
-<video src="./repo-assets/video.mp4" controls width="100%">
-  Your browser does not support the video tag. You can still [download the video here](./repo-assets/video.mp4).
-</video>
+![this is how it looks like in case if you are a windows pleb](./repo-assets/video.mp4)
 
 ## Why I made this?
 
