@@ -116,7 +116,7 @@ Before you run this, you'll need a few things:
 - **Rust/Cargo**: To compile the backend.
 - **libevdev**: For the input monitoring.
 - **DBus/MPRIS**: To talk to your media players.
-- **webkit2gtk**: The literal web browser that renders the UI while Tauri tries to convince you it's a "native" app. (Hey at least it's not chromium)
+- **webkit2gtk**: The literal web browser that renders the UI while Tauri tries to convince you it's a "native" app. (Hey at least it's not another chromium instance on top of 5 other you already have running)
 
 ## Getting Started
 
