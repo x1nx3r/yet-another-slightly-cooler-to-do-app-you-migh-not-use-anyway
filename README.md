@@ -128,10 +128,10 @@ Before you run this, you'll need a few things:
 ### Preparation (The "I'm totally going to do this" phase)
 ```bash
 # 1. Fork this monument to my ego (duh)
-git clone https://github.com/x1nx3r/yet-another-slighty-cooler-to-do-list-app.git
+git clone https://github.com/x1nx3r/yet-another-slighty-cooler-to-do-list-app-you-migh-not-use-anyway.git
 
 # 2. Walk into the directory of regret
-cd yet-another-slighty-cooler-to-do-list-app
+cd yet-another-slighty-cooler-to-do-list-app-you-migh-not-use-anyway
 
 # 3. Install dependencies and hope nothing breaks
 bun install
