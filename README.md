@@ -147,18 +147,11 @@ chmod +x uninstall.sh
 ./uninstall.sh
 ```
 
-## The Reality of This App
-
-You didn't install this to be productive. You installed it because:
-1. You want to spend 4 hours tweaking CSS instead of working.
-2. You like watching your own keystrokes like some kind of narcissist.
-3. The music visualizer is the only thing that'll actually be "active" on your screen today.
-4. You'll eventually replace this with something even more minimalist in three weeks.
-
 ## Acknowledgments
-- **Tauri**: For making web-tech desktop apps slightly less embarrassing.
-- **Hyprland**: For the rules that stop this from being a mess.
-- **MPRIS**: For being the one standard on Linux that actually works across players.
+- **Tauri**: For making web-tech desktop apps slightly less embarrassing. (Well choose your devil, i don't wanna touch the abomination that is GTK or Qt just to be "native")
+- **Hyprland**: For the rules that stop this from being a mess. (except for that time they decided to update their windowrule syntax and break all hyprland configs across the globe)
+- **MPRIS**: For being the one standard on Linux that actually works across players. (no seriously i'm impressed by this one)
+- **Bun**: For being fast (That's a lie i just like it's logo and it's funny name)
 
 ## License
 **WTFPL**. Most of the code is overkill, but it's yours now. Do what the fuck you want to.
