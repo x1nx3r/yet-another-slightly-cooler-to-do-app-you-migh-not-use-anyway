@@ -3,10 +3,26 @@ mod media;
 mod tasks;
 use tauri::Manager;
 
+/// Get the name of the default (first) Hyprland monitor
+fn get_default_monitor_name() -> Option<String> {
+    let output = std::process::Command::new("hyprctl")
+        .args(["monitors", "-j"])
+        .output()
+        .ok()?;
+    let json: serde_json::Value = serde_json::from_slice(&output.stdout).ok()?;
+    json.as_array()?
+        .first()?
+        .get("name")?
+        .as_str()
+        .map(|s| s.to_string())
+}
+
 /// Reclaim the reserved monitor space
 fn cleanup_reserved_space() {
+    let monitor = get_default_monitor_name().unwrap_or_default();
+    let arg = format!("{},addreserved,0,0,0,0", monitor);
     let _ = std::process::Command::new("hyprctl")
-        .args(["keyword", "monitor", ",addreserved,0,0,0,0"])
+        .args(["keyword", "monitor", &arg])
         .output();
 }
 
@@ -45,6 +61,16 @@ pub fn run() {
         }
     });
 
+    // Reserve 30px at the bottom of the default monitor for the dock
+    // MUST run before Tauri creates windows — Hyprland 0.53+ re-layouts
+    // floating windows when addreserved changes, pushing them out of the
+    // reserved area. By reserving first, window rules place the dock correctly.
+    let monitor = get_default_monitor_name().unwrap_or_default();
+    let arg = format!("{},addreserved,0,30,0,0", monitor);
+    let _ = std::process::Command::new("hyprctl")
+        .args(["keyword", "monitor", &arg])
+        .output();
+
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
         .setup(|app| {
@@ -57,11 +83,6 @@ pub fn run() {
 
             // Initialize Media Monitoring (Background Thread)
             media::init(app.handle());
-
-            // Reserve 36px at the bottom of the monitor for the dock
-            let _ = std::process::Command::new("hyprctl")
-                .args(["keyword", "monitor", ",addreserved,0,30,0,0"])
-                .output();
 
             Ok(())
         })
