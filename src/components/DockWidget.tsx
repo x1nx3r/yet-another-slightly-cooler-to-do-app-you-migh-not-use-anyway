@@ -47,9 +47,11 @@ export default function DockWidget() {
 
     return (
         <div className="dock-bar" data-tauri-drag-region>
-            <span className="dock-text" data-tauri-drag-region>
-                {activeTask ? activeTask.text : "No active task"}
-            </span>
+            <div className="dock-text-wrapper" data-tauri-drag-region>
+                <div className="dock-text-content" data-text={activeTask ? activeTask.text : "No active task"} data-tauri-drag-region>
+                    {activeTask ? activeTask.text : "No active task"}
+                </div>
+            </div>
             <span className="dock-sep" data-tauri-drag-region>·</span>
             <span className="dock-time" data-tauri-drag-region>
                 {elapsed}

@@ -84,7 +84,9 @@ export default function TaskWidget() {
                             checked={task.completed}
                             onChange={() => toggleTask(task.id)}
                         />
-                        <span onClick={() => toggleTask(task.id)}>{task.text}</span>
+                        <span className="task-text-wrapper" onClick={() => toggleTask(task.id)}>
+                            <div className="task-text-content" data-text={task.text}>{task.text}</div>
+                        </span>
                         {!task.completed && (
                             <button
                                 className="activate-btn"

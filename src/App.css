@@ -261,14 +261,47 @@ h1 {
     transform: translate(-50%, -50%);
 }
 
-.widget-container.tasks li span {
+.widget-container.tasks li .task-text-wrapper {
     flex-grow: 1;
+    min-width: 0;
     font-size: 1rem;
     transition: color 0.2s;
     line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    position: relative;
 }
 
-.widget-container.tasks li.completed span {
+.widget-container.tasks li:hover .task-text-wrapper {
+    text-overflow: clip;
+    mask-image: linear-gradient(to right, black 85%, transparent 100%);
+}
+
+.widget-container.tasks li .task-text-content {
+    display: inline-block;
+}
+
+.widget-container.tasks li:hover .task-text-content {
+    animation: marquee-scroll 8s linear infinite;
+    padding-right: 2rem;
+}
+
+.widget-container.tasks li:hover .task-text-content::after {
+    content: attr(data-text);
+    padding-left: 2rem;
+}
+
+@keyframes marquee-scroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.widget-container.tasks li.completed .task-text-wrapper {
     color: var(--text-secondary);
     text-decoration: line-through;
     opacity: 0.5;
@@ -284,6 +317,9 @@ h1 {
     font-size: 0.9rem;
     transition: opacity 0.2s;
     padding: 0 4px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 5;
 }
 
 .widget-container.tasks li:hover button {
@@ -310,6 +346,8 @@ h1 {
     gap: 0.4rem;
     overflow: hidden;
     white-space: nowrap;
+    flex-grow: 1;
+    min-width: 0;
 }
 
 .music-visualizer {
@@ -398,13 +436,35 @@ h1 {
     padding: 0 0.5rem 4px 0.5rem;
 }
 
-.dock-text {
-    font-size: 1rem;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.9);
-    white-space: nowrap;
+.dock-text-wrapper {
+    max-width: 280px;
+    min-width: 0;
     overflow: hidden;
+    white-space: nowrap;
     text-overflow: ellipsis;
+    cursor: default;
+}
+
+.dock-text-content {
+    display: inline-block;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.dock-text-wrapper:hover {
+    text-overflow: clip;
+    mask-image: linear-gradient(to right, black 85%, transparent 100%);
+}
+
+.dock-text-wrapper:hover .dock-text-content {
+    animation: marquee-scroll 10s linear infinite;
+    padding-right: 2rem;
+}
+
+.dock-text-wrapper:hover .dock-text-content::after {
+    content: attr(data-text);
+    padding-left: 2rem;
 }
 
 .dock-sep {
@@ -427,6 +487,9 @@ h1 {
     cursor: pointer;
     padding: 0;
     transition: color 0.2s;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 10;
 }
 
 .dock-gear:hover {
