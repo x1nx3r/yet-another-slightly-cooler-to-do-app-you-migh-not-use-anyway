@@ -14,8 +14,10 @@ function App() {
     // Apply system accent color
     invoke<string>("get_accent_color").then((color) => {
       document.documentElement.style.setProperty("--accent-color", color);
-      // Generate a glow color (accent with 40% opacity)
-      // This is a simple HEX to RGBA conversion for the glow effect
+      if (color.startsWith("#")) {
+        const r = parseInt(color.slice(1, 3), 16);
+        const g = parseInt(color.slice(3, 5), 16);
+        const b = parseInt(color.slice(5, 7), 16);
         document.documentElement.style.setProperty("--accent-glow", `rgba(${r}, ${g}, ${b}, 0.4)`);
         document.documentElement.style.setProperty("--accent-bg", `rgba(${r}, ${g}, ${b}, 0.2)`);
       }
