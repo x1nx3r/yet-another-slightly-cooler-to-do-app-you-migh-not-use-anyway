@@ -1,13 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;800&family=Roboto:wght@400;500;700&display=swap');
 
+* {
+    box-sizing: border-box;
+}
+
 :root {
     --font-main: 'SF Pro Display', 'Roboto', 'Inter', system-ui, sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
 
-    --glass-bg: rgba(20, 20, 20, 0.6);
-    --glass-border: rgba(255, 255, 255, 0.08);
-    --glass-highlight: rgba(255, 255, 255, 0.05);
-    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    --glass-bg: rgba(10, 10, 10, 0.1);
+    --glass-border: none;
+    --glass-highlight: transparent;
+    --glass-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.1);
     --blur-amount: 12px;
 
     --accent-color: #c084fc;
@@ -43,11 +47,11 @@ body {
     height: 100%;
     padding: 1rem;
     box-sizing: border-box;
-    background: transparent;
-    backdrop-filter: none;
-    border: none;
-    box-shadow: none;
-    border-radius: 0;
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--blur-amount));
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    border-radius: 12px;
     display: flex;
     flex-direction: column;
     transition: all 0.3s ease;
@@ -70,22 +74,58 @@ h1 {
     pointer-events: none;
 }
 
-/* --- Keystroke Bar (inline with dock) --- */
+/* --- Unified Bar --- */
+.unified-bar {
+    display: grid;
+    grid-template-columns: 20% 60% 20%;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--blur-amount));
+    border: 1px solid var(--glass-border);
+    border-radius: 4px;
+    box-shadow: var(--glass-shadow);
+    overflow: hidden;
+    padding: 0 0.5rem;
+    box-sizing: border-box;
+}
+
+.bar-section {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.bar-section.left {
+    justify-content: flex-start;
+}
+
+.bar-section.middle {
+    justify-content: center;
+}
+
+.bar-section.right {
+    justify-content: flex-end;
+}
+
+/* --- Keystroke Bar (merged) --- */
 .keystroke-bar {
     display: flex;
     align-items: center;
     justify-content: flex-end;
     gap: 0.4rem;
-    width: 100%;
     height: 100%;
-    padding: 0 0.5rem 4px 0.5rem;
-    box-sizing: border-box;
+    padding: 0;
     font-family: var(--font-main);
 }
 
 .keystroke-key {
-    font-size: 0.9rem;
+    font-size: 1rem;
     font-weight: 500;
+    line-height: 1;
     color: rgba(255, 255, 255, 0.85);
     padding: 0;
     border-radius: 0;
@@ -327,16 +367,14 @@ h1 {
 }
 
 
-/* --- Music Bar (inline) --- */
+/* --- Music Bar (merged) --- */
 .music-bar {
     display: flex;
     align-items: center;
     justify-content: flex-start;
     gap: 0.5rem;
-    width: 100%;
     height: 100%;
-    padding: 0 0.5rem 4px 0.5rem;
-    box-sizing: border-box;
+    padding: 0;
     font-family: var(--font-main);
 }
 
@@ -403,53 +441,86 @@ h1 {
     }
 }
 
+.music-info {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+    cursor: default;
+    min-width: 0;
+    mask-image: linear-gradient(to right, black 85%, transparent 100%);
+}
+
+.music-info:hover .music-title {
+    animation: marquee-scroll 10s linear infinite;
+    padding-right: 2rem;
+}
+
+.music-info:hover .music-title::after {
+    content: attr(data-text);
+    padding-left: 2rem;
+}
+
 .music-title {
     font-size: 1rem;
     font-weight: 500;
+    line-height: 1;
     color: rgba(255, 255, 255, 0.9);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .music-sep {
     color: rgba(255, 255, 255, 0.4);
     font-weight: 400;
+    line-height: 1;
 }
 
 .music-artist {
     font-size: 0.9rem;
     font-weight: 500;
+    line-height: 1;
     color: rgba(255, 255, 255, 0.6);
 }
 
 .music-idle {
     font-size: 0.9rem;
+    line-height: 1;
     color: rgba(255, 255, 255, 0.4);
 }
 
-/* --- Dock Bar (minimalist one-liner) --- */
+/* --- Dock Bar (merged) --- */
 .dock-bar {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.75rem;
-    width: 100%;
     height: 100%;
-    padding: 0 0.5rem 4px 0.5rem;
+    padding: 0;
 }
 
 .dock-text-wrapper {
-    max-width: 280px;
+    max-width: 400px;
     min-width: 0;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
     cursor: default;
+    display: flex;
+    align-items: center;
 }
 
 .dock-text-content {
-    display: inline-block;
+    display: flex;
+    align-items: center;
     color: rgba(255, 255, 255, 0.9);
     font-weight: 500;
     font-size: 1rem;
+    line-height: 1;
+    height: 100%;
 }
 
 .dock-text-wrapper:hover {
@@ -468,15 +539,23 @@ h1 {
 }
 
 .dock-sep {
+    display: flex;
+    align-items: center;
     color: rgba(255, 255, 255, 0.25);
     font-size: 1.1rem;
+    line-height: 1;
+    height: 100%;
 }
 
 .dock-time {
-    font-family: var(--font-mono);
+    display: flex;
+    align-items: center;
+    font-family: var(--font-main);
     font-size: 1rem;
-    font-weight: 700;
+    font-weight: 500;
     color: rgba(255, 255, 255, 0.6);
+    line-height: 1;
+    height: 100%;
 }
 
 .dock-gear {
@@ -490,6 +569,7 @@ h1 {
     flex-shrink: 0;
     position: relative;
     z-index: 10;
+    line-height: 1;
 }
 
 .dock-gear:hover {

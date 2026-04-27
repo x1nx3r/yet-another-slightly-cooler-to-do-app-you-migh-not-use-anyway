@@ -29,3 +29,7 @@ zbus = "3"
 uuid = { version = "1.0", features = ["v4", "serde"] }
 signal-hook = "0.3"
 
+[target.x86_64-unknown-linux-gnu.dependencies]
+gdk = "0.18.2"
+gtk = "0.18.2"
+

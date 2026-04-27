@@ -5668,6 +5668,8 @@ name = "yet-another-slighty-cooler-to-do-list-app"
 version = "0.1.0"
 dependencies = [
  "evdev",
+ "gdk",
+ "gtk",
  "mpris",
  "parking_lot",
  "serde",

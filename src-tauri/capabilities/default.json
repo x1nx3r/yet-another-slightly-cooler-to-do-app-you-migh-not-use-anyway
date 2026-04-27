@@ -3,9 +3,8 @@
   "identifier": "default",
   "description": "Capability for the main window",
   "windows": [
-    "tasks",
-    "keystrokes",
-    "music"
+    "main",
+    "settings"
   ],
   "permissions": [
     "core:default",

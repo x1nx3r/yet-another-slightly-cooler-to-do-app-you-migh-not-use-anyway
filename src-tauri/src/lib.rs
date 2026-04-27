@@ -3,32 +3,8 @@ mod media;
 mod tasks;
 use tauri::Manager;
 
-/// Get the name of the default (first) Hyprland monitor
-fn get_default_monitor_name() -> Option<String> {
-    let output = std::process::Command::new("hyprctl")
-        .args(["monitors", "-j"])
-        .output()
-        .ok()?;
-    let json: serde_json::Value = serde_json::from_slice(&output.stdout).ok()?;
-    json.as_array()?
-        .first()?
-        .get("name")?
-        .as_str()
-        .map(|s| s.to_string())
-}
-
-/// Reclaim the reserved monitor space
-fn cleanup_reserved_space() {
-    let monitor = get_default_monitor_name().unwrap_or_default();
-    let arg = format!("{},addreserved,0,0,0,0", monitor);
-    let _ = std::process::Command::new("hyprctl")
-        .args(["keyword", "monitor", &arg])
-        .output();
-}
-
 #[tauri::command]
 fn exit_app() {
-    cleanup_reserved_space();
     std::process::exit(0);
 }
 
@@ -44,33 +20,41 @@ fn toggle_settings_window(app: tauri::AppHandle) {
     }
 }
 
-#[cfg_attr(mobile, tauri::mobile_entry_point)]
-pub fn run() {
-    // Handle Unix signals: reclaim reserved space before exiting
-    let mut signals = signal_hook::iterator::Signals::new(&[
-        signal_hook::consts::signal::SIGINT,
-        signal_hook::consts::signal::SIGTERM,
-        signal_hook::consts::signal::SIGHUP,
-    ])
-    .expect("Error setting signal handler");
+#[tauri::command]
+fn get_accent_color() -> String {
+    // Standard GNOME/GTK4 accent color mapping
+    let default_accent = "#c084fc"; // Our default purple
+    
+    #[cfg(target_os = "linux")]
+    {
+        let output = std::process::Command::new("gsettings")
+            .args(["get", "org.gnome.desktop.interface", "accent-color"])
+            .output();
 
-    std::thread::spawn(move || {
-        for _ in signals.forever() {
-            cleanup_reserved_space();
-            std::process::exit(0);
+        if let Ok(out) = output {
+            let raw = String::from_utf8_lossy(&out.stdout).trim().to_string();
+            // gsettings returns values like "'blue'" (with single quotes)
+            let color_name = raw.trim_matches('\''); 
+
+            match color_name {
+                "blue" => return "#3584e4".to_string(),
+                "teal" => return "#2190a4".to_string(),
+                "green" => return "#3a944a".to_string(),
+                "yellow" => return "#e5a50a".to_string(),
+                "orange" => return "#ed5b00".to_string(),
+                "red" => return "#e01b24".to_string(),
+                "pink" => return "#d56199".to_string(),
+                "purple" => return "#9141ac".to_string(),
+                "slate" => return "#6f7e96".to_string(),
+                _ => {}
+            }
         }
-    });
+    }
 
-    // Reserve 30px at the bottom of the default monitor for the dock
-    // MUST run before Tauri creates windows — Hyprland 0.53+ re-layouts
-    // floating windows when addreserved changes, pushing them out of the
-    // reserved area. By reserving first, window rules place the dock correctly.
-    let monitor = get_default_monitor_name().unwrap_or_default();
-    let arg = format!("{},addreserved,0,30,0,0", monitor);
-    let _ = std::process::Command::new("hyprctl")
-        .args(["keyword", "monitor", &arg])
-        .output();
+    default_accent.to_string()
+}
 
+pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
         .setup(|app| {
@@ -96,10 +80,8 @@ pub fn run() {
             media::get_current_track,
             toggle_settings_window,
             exit_app,
+            get_accent_color,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
-
-    // Normal exit — also reclaim reserved space
-    cleanup_reserved_space();
 }

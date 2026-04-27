@@ -27,7 +27,7 @@ export default function MusicWidget() {
             </div>
             {track ? (
                 <div className="music-info" data-tauri-drag-region>
-                    <span className="music-title" data-tauri-drag-region>{track.title}</span>
+                    <span className="music-title" data-text={track.title} data-tauri-drag-region>{track.title}</span>
                     {track.artist && (
                         <>
                             <span className="music-sep" data-tauri-drag-region>·</span>
